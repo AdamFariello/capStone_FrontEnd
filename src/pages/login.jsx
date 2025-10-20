@@ -7,10 +7,11 @@ import { useState } from "react";
 //    email and password
 // 3. When adding real validation, check to see if this is how it's done 
 //    (Probably REALLY not)
+// 4. Make it so user can choose between inserting email or username
 
 function btn(password, email) {
     //Function works as expected
-    
+
     //console.log(password, "--", email)
 }
 
@@ -21,17 +22,20 @@ export default function LoginPage() {
     return(<>
         <h1>Log in</h1>
 
-        <label>Email: </label> 
+        <label htmlFor="email">Email: </label> 
         <input 
-            type="text" placeholder="Enter email" 
+            type="email" 
+            placeholder="Enter email"
+            required 
             onChange={e => setEmailText(e.target.value)}
         />
         <br />
 
-        <label>Password: </label> 
+        <label htmlFor="password">Password: </label> 
         <input 
             onChange={e => setPasswordText(e.target.value)}
             type="password" 
+            required
             placeholder="Enter password" 
         />
         <br />
@@ -39,6 +43,6 @@ export default function LoginPage() {
         <button onClick={() => btn(emailText, passwordText)}>Login</button>
         <br /> <br />
 
-        <p>New user? Then click <a href="localhost">here</a></p>
+        <p>New user? Then click <a href="TODO">here</a></p>
     </>);
 }
