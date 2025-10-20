@@ -7,6 +7,9 @@ https://github.com/AdamFariello/capStone_BackEnd
 Click here: <mark>TODO: INSERT</mark> , to use this online
 
 ### Running it locally
+#### 0. Pre-requsites
+Go to the [backend repo](https://github.com/AdamFariello/capStone_BackEnd), and setup the project
+
 #### 1. Clone repo
 ```bash
 git clone https://github.com/AdamFariello/capStone_FrontEnd
