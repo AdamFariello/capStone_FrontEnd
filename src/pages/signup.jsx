@@ -55,17 +55,35 @@ export default function SignupPage() {
         setFormData({...formData, [e.target.name]:e.target.value});
     }
     // function handleClick() //dont think I need it yet
-    function handleSubmit() {
+    function handleSubmit(e) {
         e.preventDefault();
         try {
+            let hasEmptyValue = false;
+            Object.values(formData).map(e => {
+                if (e.length == 0) {
+                    hasEmptyValue = true;
+                }
+            })
+            if (hasEmptyValue) {
+                throw new Error("Invalid. Missing: username, email, and/or passwords")
+            }
             if (formData.password !== formData.confirmPassword) {
-                throw new Error("Passwords don't match"); 
-            } else {
+                throw new Error("Passwords don't match");
+            }
+            
+            let {"confirmPassword":_, ...formDataFilt} = formData;
+            
+            console.log(formData);
+            console.log(formDataFilt);
+
+
+            
+            
                 //TODO: fill
                 //await createNewUser(formData);
 
                 //nav("userDash") //TODO: create a page highlighting this
-            }
+
         } catch (e) {
             console.error(e.message);
         }
@@ -113,6 +131,7 @@ export default function SignupPage() {
             </label>
             <br /> 
 
+            {/**TODO: add checks for password*/}
             <label>confirm password:  
                 <input 
                     type="password" 
@@ -124,6 +143,9 @@ export default function SignupPage() {
                 />
             </label>
             <br />
+
+            {/**TODO: check if button will look different with <button> (and work) */}
+            <input type="submit" value="Sign Up" />
         </form>
         <br /> 
      
