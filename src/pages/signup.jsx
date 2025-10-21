@@ -1,54 +1,132 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import env from "react-dotenv"
+import cors from "cors";
+import e from "cors";
+
+//TODO: in the full project make sure to swap this out with the actual
+const serverURL = "http://localhost:4008/";
 
 // TODO:
 // 1. Add an email checking pattern
 // 2. Make it so text boxes are aligned (will probably need CSS)
 // 3. Switch out the anchor tag at the bottom of the page with <Link> 
 //    (after react-router-dom is setup of course)
+// 4. Add a visual of where you don't give proper info, like duplicate usernames
 
-function btn(usernameText, emailText, passwordText) {
+async function btn_test() {
+    //Function tests "/" route to make sure it can connect at all
+    try {
+        let res = await axios.get(serverURL);
+        await console.log(res.data);    
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+
+async function createNewUser(usernameText, emailText, passwordText) {
     //console.log(usernameText, "-", emailText, "-", passwordText);
+    if (!usernameText || !emailText || !passwordText) return;
 
-    
+    const serverURLArg = serverURLArg + "/user";
+    try {
+        let res = await axios.post(serverURLArg);
+        await console.log(res.data);    
+    } catch (e) {
+        console.error(e.message);
+    }
 }
 
 export default function SignupPage() {
     const [usernameText, setUserNameText] = useState("");
     const [emailText, setEmailText] = useState("");
     const [passwordText, setPasswordText] = useState("");
+
+    // Stealing from teacher's code instead since it's clearner and better to update
+    const [formData, setFormData] = useState({
+        userName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
+
+    function updateFormData(e) {
+        setFormData({...formData, [e.target.name]:e.target.value});
+    }
+    // function handleClick() //dont think I need it yet
+    function handleSubmit() {
+        e.preventDefault();
+        try {
+            if (formData.password !== formData.confirmPassword) {
+                throw new Error("Passwords don't match"); 
+            } else {
+                //TODO: fill
+                //await createNewUser(formData);
+
+                //nav("userDash") //TODO: create a page highlighting this
+            }
+        } catch (e) {
+            console.error(e.message);
+        }
+    }
     
+
     return(<>
         <h1>Signup</h1>
-        <label htmlFor="Username">Username: </label>  
-        <input 
-            type="text" placeholder="Enter Username"
-            required
-            onChange={e => setUserNameText(e.target.value)}
-        />
-        <br />
 
-        <label htmlFor="email">Email: </label>
-        <input 
-            type="email" placeholder="Enter Email"
-            required
-            onChange={e => setEmailText(e.target.value)}
-        />
-        <br />
+        {/*TODO: add CSS to make proper formatting, limited using <label>*/}
+        <form onSubmit={handleSubmit}>
+            <label>Username:  
+                <input 
+                    type="text" 
+                    name="userName"
+                    value={formData.userName}
+                    placeholder="Enter Username"
+                    onChange={updateFormData}
+                    required
+                />
+            </label>
+            <br />
 
-        <label htmlFor="password">Password: </label>  
-        <input 
-            type="password" placeholder="Enter Password"
-            required
-            onChange={e => setPasswordText(e.target.value)}
-        />
+            <label>email:  
+                <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    placeholder="Enter Email"
+                    onChange={updateFormData}
+                    required
+                />
+            </label>
+            <br />
+
+            <label>password:  
+                <input 
+                    type="password" 
+                    name="password"
+                    value={formData.password}
+                    placeholder="Enter Password"
+                    onChange={updateFormData}
+                    required
+                />
+            </label>
+            <br /> 
+
+            <label>confirm password:  
+                <input 
+                    type="password" 
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    placeholder="Enter Password Again"
+                    onChange={updateFormData}
+                    required
+                />
+            </label>
+            <br />
+        </form>
         <br /> 
-        
-        <button onClick={() => btn(usernameText, emailText, passwordText)}>
-            Signup!
-        </button>
-        <br /> <br />
-
+     
         <div>
             <p>Have an account? Log in</p> 
             <Link to="/Login"><div>here</div></Link>
