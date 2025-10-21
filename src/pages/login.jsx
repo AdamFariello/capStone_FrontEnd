@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 //TODO:
 // 1. Switch out the anchor tag at the bottom of the page with <Link> 
@@ -43,6 +44,9 @@ export default function LoginPage() {
         <button onClick={() => btn(emailText, passwordText)}>Login</button>
         <br /> <br />
 
-        <p>New user? Then click <a href="TODO">here</a></p>
+        <div>
+            New user? Then click
+            <Link to="/signup"><div>here</div></Link>
+        </div>
     </>);
 }

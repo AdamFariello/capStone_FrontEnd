@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // TODO:
 // 1. Add an email checking pattern
@@ -8,6 +9,8 @@ import { useState } from "react";
 
 function btn(usernameText, emailText, passwordText) {
     //console.log(usernameText, "-", emailText, "-", passwordText);
+
+    
 }
 
 export default function SignupPage() {
@@ -44,8 +47,11 @@ export default function SignupPage() {
         <button onClick={() => btn(usernameText, emailText, passwordText)}>
             Signup!
         </button>
-        <br />
+        <br /> <br />
 
-        <p>Have an account? Log in <a href="TODO">here</a></p>
+        <div>
+            <p>Have an account? Log in</p> 
+            <Link to="/Login"><div>here</div></Link>
+        </div>
     </>)
 }
