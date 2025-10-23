@@ -1,56 +1,63 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios"; 
 
-//TODO:
-// 1. Switch out the anchor tag at the bottom of the page with <Link> 
-//    (after react-router-dom is setup of course)
-// 2. Create a css file to link to this page, and change the spacing between 
-//    email and password
-// 3. When adding real validation, check to see if this is how it's done 
-//    (Probably REALLY not)
-// 4. Make it so user can choose between inserting email or username
-
-function btn(password, email) {
-    //Function works as expected
-
-    //console.log(password, "--", email)
-}
+//const urlDomain = "http://localhost:4008/";
+const url = "http://localhost:4008/api/auth/";
 
 export default function LoginPage() {
-    const [userName, setUserName] = useState("");
-    const [passwordText, setPasswordText] = useState("");
+    const [formData, setFormData] = useState({username: "", password: "", });
+    function updateFormData(e) {
+        setFormData({...formData, [e.target.name]:e.target.value});
+    }
+    //console.log(formData);
 
-    async function functionhandleSubmit  (e) {
-
+    async function handleSubmit (e) { 
+        e.preventDefault();
+        try {
+            let res = await axios.get(url);
+            await console.log(res.data);    
+        } catch (e) {
+            console.error(e.message);
+        }
     }
 
-    return(<>
-        <h1>Log in</h1>
+        return(<>
+        <h1>Login</h1>
 
-        <label htmlFor="email">Email: </label> 
-        <input 
-            type="email" 
-            placeholder="Enter email"
-            required 
-            onChange={e => setUserName(e.target.value)}
-        />
-        <br />
+        {/*TODO: add CSS to make proper formatting, limited using <label>*/}
+        <form onSubmit={handleSubmit}>
+            <label>username:  
+                <input 
+                    type="text" 
+                    name="username"
+                    value={formData.username}
+                    placeholder="Enter username"
+                    onChange={updateFormData}
+                    required
+                />
+            </label>
+            <br />
 
-        <label htmlFor="password">Password: </label> 
-        <input 
-            onChange={e => setPasswordText(e.target.value)}
-            type="password" 
-            required
-            placeholder="Enter password" 
-        />
-        <br />
+            <label>password:  
+                <input 
+                    type="password" 
+                    name="password"
+                    value={formData.password}
+                    placeholder="Enter Password"
+                    onChange={updateFormData}
+                    required
+                />
+            </label>
+            <br /> 
 
-        <button onClick={() => btn(emailText, passwordText)}>Login</button>
-        <br /> <br />
-
+            <input type="submit" value="Sign Up" />
+        </form>
+        <br /> 
+     
         <div>
             New user? Then click
             <Link to="/signup"><div>here</div></Link>
         </div>
-    </>);
+    </>)
 }

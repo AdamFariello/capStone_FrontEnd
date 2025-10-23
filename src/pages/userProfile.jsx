@@ -24,7 +24,7 @@ async function test_patchUser(e) {
             $set: { 
                 password: "realPassword"
             } 
-        };
+        }; 
 
         let res = await axios.patch(
             serverURLArg, 
@@ -38,6 +38,8 @@ async function test_patchUser(e) {
 }
 
 export default function UserProfile() {
+    
+
     return (<>
         <h1>test</h1>
     </>);

@@ -15,17 +15,6 @@ const serverURL = "http://localhost:4008/";
 //    (after react-router-dom is setup of course)
 // 4. Add a visual of where you don't give proper info, like duplicate usernames
 
-async function test_getUsers() {
-    //Function tests "/" route to make sure it can connect at all
-    try {
-        console.log("testing btn_test()");
-        let res = await axios.get(serverURL);
-        await console.log(res.data);    
-    } catch (e) {
-        console.error(e.message);
-    }
-}
-
 export default function SignupPage() {
     // Stealing from teacher's code instead since it's clearner and better to update
     const [formData, setFormData] = useState({
