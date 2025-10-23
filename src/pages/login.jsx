@@ -17,8 +17,12 @@ function btn(password, email) {
 }
 
 export default function LoginPage() {
-    const [emailText, setEmailText] = useState("");
+    const [userName, setUserName] = useState("");
     const [passwordText, setPasswordText] = useState("");
+
+    async function functionhandleSubmit  (e) {
+
+    }
 
     return(<>
         <h1>Log in</h1>
@@ -28,7 +32,7 @@ export default function LoginPage() {
             type="email" 
             placeholder="Enter email"
             required 
-            onChange={e => setEmailText(e.target.value)}
+            onChange={e => setUserName(e.target.value)}
         />
         <br />
 

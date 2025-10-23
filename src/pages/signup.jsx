@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import env from "react-dotenv"
-import cors from "cors";
-import e from "cors";
+
 
 //TODO: in the full project make sure to swap this out with the actual
 const serverURL = "http://localhost:4008/";
+//const serverURL = "http://127.0.0.1:4008";
+
 
 // TODO:
 // 1. Add an email checking pattern
@@ -15,9 +15,10 @@ const serverURL = "http://localhost:4008/";
 //    (after react-router-dom is setup of course)
 // 4. Add a visual of where you don't give proper info, like duplicate usernames
 
-async function btn_test() {
+async function test_getUsers() {
     //Function tests "/" route to make sure it can connect at all
     try {
+        console.log("testing btn_test()");
         let res = await axios.get(serverURL);
         await console.log(res.data);    
     } catch (e) {
@@ -25,67 +26,44 @@ async function btn_test() {
     }
 }
 
-async function createNewUser(usernameText, emailText, passwordText) {
-    //console.log(usernameText, "-", emailText, "-", passwordText);
-    if (!usernameText || !emailText || !passwordText) return;
-
-    const serverURLArg = serverURLArg + "/user";
-    try {
-        let res = await axios.post(serverURLArg);
-        await console.log(res.data);    
-    } catch (e) {
-        console.error(e.message);
-    }
-}
-
 export default function SignupPage() {
-    const [usernameText, setUserNameText] = useState("");
-    const [emailText, setEmailText] = useState("");
-    const [passwordText, setPasswordText] = useState("");
-
     // Stealing from teacher's code instead since it's clearner and better to update
     const [formData, setFormData] = useState({
-        userName: "",
+        username: "",
         email: "",
         password: "",
-        confirmPassword: "",
     });
-
     function updateFormData(e) {
         setFormData({...formData, [e.target.name]:e.target.value});
     }
-    // function handleClick() //dont think I need it yet
-    function handleSubmit(e) {
+
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+
+    //async function test_postUser(e) {
+    async function handleSubmit(e) { //dont think I need it yet
         e.preventDefault();
         try {
+            if (formData.password !== confirmPassword) {
+                throw new Error("Passwords don't match");
+            }
+            
             let hasEmptyValue = false;
             Object.values(formData).map(e => {
-                if (e.length == 0) {
-                    hasEmptyValue = true;
-                }
+                //TODO: test properly
+                hasEmptyValue = hasEmptyValue || (e.length == 0) 
             })
             if (hasEmptyValue) {
                 throw new Error("Invalid. Missing: username, email, and/or passwords")
             }
-            if (formData.password !== formData.confirmPassword) {
-                throw new Error("Passwords don't match");
-            }
             
-            let {"confirmPassword":_, ...formDataFilt} = formData;
-            
-            console.log(formData);
-            console.log(formDataFilt);
+            const serverURLArg = `${serverURL}users`;
+            await axios.post(serverURLArg, formData);
+            console.log(res);
 
-
-            
-            
-                //TODO: fill
-                //await createNewUser(formData);
-
-                //nav("userDash") //TODO: create a page highlighting this
-
+            //nav("userDash") //TODO: create a page highlighting this
         } catch (e) {
-            console.error(e.message);
+            console.error(e);
         }
     }
     
@@ -95,12 +73,12 @@ export default function SignupPage() {
 
         {/*TODO: add CSS to make proper formatting, limited using <label>*/}
         <form onSubmit={handleSubmit}>
-            <label>Username:  
+            <label>username:  
                 <input 
                     type="text" 
-                    name="userName"
-                    value={formData.userName}
-                    placeholder="Enter Username"
+                    name="username"
+                    value={formData.username}
+                    placeholder="Enter username"
                     onChange={updateFormData}
                     required
                 />
@@ -136,9 +114,10 @@ export default function SignupPage() {
                 <input 
                     type="password" 
                     name="confirmPassword"
-                    value={formData.confirmPassword}
+                    /*value={formData.confirmPassword}*/
                     placeholder="Enter Password Again"
-                    onChange={updateFormData}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    /*onChange={updateFormData}*/
                     required
                 />
             </label>
