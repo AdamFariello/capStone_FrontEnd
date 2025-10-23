@@ -15,14 +15,16 @@ export default function LoginPage() {
     async function handleSubmit (e) { 
         e.preventDefault();
         try {
-            let res = await axios.get(url);
-            await console.log(res.data);    
+            let res = await axios.post(url, formData);
+            
+            //TODO: add redicret and cleanup function
         } catch (e) {
             console.error(e.message);
         }
     }
 
-        return(<>
+
+    return(<>
         <h1>Login</h1>
 
         {/*TODO: add CSS to make proper formatting, limited using <label>*/}
