@@ -3,20 +3,9 @@ import { useState, useRef } from "react";
 import axios from "axios";
 
 import SettingsComp from "../components/settingsComp";
+import DelUserComp from "../components/delUserComp";
 
 const url = "http://localhost:4008/users";
-
-async function test_deleteUser(e) {
-//async function handleSubmit(e) {
-    e.preventDefault();
-    try {            
-        const serverURLArg = `${serverURL}users`;
-        let res = await axios.delete(serverURLArg, {data: formData});
-        console.log(res)
-    } catch (err) {
-        console.error(err);
-    }
-}
 
 export default function UserProfile() {
     let [showBooks, setShowBooks] = useState(false);
@@ -39,6 +28,7 @@ export default function UserProfile() {
             <>
                 <SettingsComp displayname={displayname} />
                 <br />
+                <DelUserComp displayname={displayname} />
             </>
         }
     </>);
