@@ -21,8 +21,6 @@ export default function LoginPage() {
             let res = await axios.post(url, formData);
             
             navigate(`/user/${formData.username}`);
-            //navigate("/user");
-            //navigate("/user", {replace: true});
         } catch (e) { 
             console.error(e.message);
         }

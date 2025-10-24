@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 
 async function test_deleteUser(e) {
@@ -34,18 +35,51 @@ async function test_patchUser(e) {
         );
         console.log(res); 
 
-    } catch (err) {
+    } catch (err) {/*  */
         console.error(err);
     }
 }
 
-export default function UserProfile(username) {
-    console.log("username: ", username);     
 
-    const params = useParams().id;
-    console.log("parms: ", params);
+function SettingsComp() {
+    async function handleSubmit(e) {
+        e.preventDefault();
+        console.log("test");
+    }
 
     return (<>
-        <h1>test</h1>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Change username: 
+                    <input type="text" />
+                </label>
+                <input type="submit" value="Change" />
+            </form>
+        </div>
+    </>);
+}
+
+
+export default function UserProfile() {
+    let [showBooks, setShowBooks] = useState(false);
+    const params = useParams().id;
+    //console.log("parms: ", params);
+
+    return (<>
+        <h1>{params}</h1>
+
+        <div>
+            <button onClick={() => setShowBooks(true)}>Books</button>
+            <button onClick={() => setShowBooks(false)}>Settings</button>
+            <hr className="solid"></hr>
+        </div>
+
+        {/*TODO: Fixup this part*/}
+        {showBooks ?
+            <></>
+            :
+            <SettingsComp />
+        }
     </>);
 } 
