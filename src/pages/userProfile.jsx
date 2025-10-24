@@ -16,45 +16,93 @@ async function test_deleteUser(e) {
 
 //
 //let {"confirmPassword":_, ...formDataFiltered} = formData;
-async function test_patchUser(e) {
-//async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-        const serverURLArg = `${serverURL}users`
 
-        //TODO: Tie variable declaration to switch statement
-        const updateObject = { 
-            $set: { 
-                password: "realPassword"
-            } 
-        }; 
-
-        let res = await axios.patch(
-            serverURLArg, 
-            {data: {formData, updateObject:updateObject}}
-        );
-        console.log(res); 
-
-    } catch (err) {/*  */
-        console.error(err);
-    }
-}
 
 
 function SettingsComp() {
-    async function handleSubmit(e) {
+    let [formEntries, setFormEntries] = useState({
+        username: "",
+        email: "",
+        password: ""
+    });
+    function updateFormData(e) {
+        setFormEntries({...formEntries, [e.target.name] : e.target.value});
+    }
+    
+    
+    //console.log(`${formEntries.username} -- ${formEntries.email} -- ${formEntries.password}`);
+    
+
+    async function handleSubmit(e, type) {
         e.preventDefault();
-        console.log("test");
+        console.log(e);
+        console.log(type);
+    }
+
+
+    async function patchInfo(e) {
+        e.preventDefault();
+        try {
+            const serverURLArg = `${serverURL}users`
+
+            //TODO: Tie variable declaration to switch statement
+            const updateObject = { 
+                $set: { 
+                    password: "realPassword"
+                } 
+            }; 
+
+            let res = await axios.patch(
+                serverURLArg, 
+                {data: {formData, updateObject:updateObject}}
+            );
+            console.log(res); 
+
+        } catch (err) {/*  */
+            console.error(err);
+        }
     }
 
     return (<>
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={e => handleSubmit(e, "username")}>
                 <label>
                     Change username: 
-                    <input type="text" />
+                    <input 
+                        type="text" 
+                        name="username"
+                        onChange={updateFormData}
+                        value={formEntries.username}/>
                 </label>
-                <input type="submit" value="Change" />
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Change email: 
+                    <input 
+                        type="text" 
+                        name="email"
+                        onChange={updateFormData}
+                        value={formEntries.email}/>
+                </label>
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Change password: 
+                    <input 
+                        type="text"
+                        name="password"
+                        onChange={updateFormData}
+                        value={formEntries.password}/>
+                </label>
+                <input type="submit" value="Update" />
             </form>
         </div>
     </>);
