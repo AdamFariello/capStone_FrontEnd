@@ -3,9 +3,6 @@
 https://github.com/AdamFariello/capStone_BackEnd
 
 ## Setup
-### Using it online
-Click here: <mark>TODO: INSERT</mark> , to use this online
-
 ### Running it locally
 #### 0. Pre-requsites
 Go to the [backend repo](https://github.com/AdamFariello/capStone_BackEnd), and setup the project
