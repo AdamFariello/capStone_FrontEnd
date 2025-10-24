@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
 
@@ -16,9 +16,8 @@ async function test_deleteUser(e) {
     }
 }
 
-//
-//let {"confirmPassword":_, ...formDataFiltered} = formData;
 
+//let {"confirmPassword":_, ...formDataFiltered} = formData;
 
 
 function SettingsComp({displayname}) {
@@ -32,6 +31,7 @@ function SettingsComp({displayname}) {
     }
     //console.log(`${formEntries.username} -- ${formEntries.email} -- ${formEntries.password}`);
     
+    const navigate = useNavigate();
     
     async function handleSubmit(e, type) { //PATCH request
         e.preventDefault();
@@ -59,7 +59,11 @@ function SettingsComp({displayname}) {
                 url, 
                 {data: {formData, "updateObject":updateObject}}
             );
-            console.log(res); 
+            //console.log(res);
+            
+            if (type == "username") {
+                navigate(`/user/${formEntries.username}`, {replace: true});
+            }
             
         } catch (err) {
             console.error(err);
