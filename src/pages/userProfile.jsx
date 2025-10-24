@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import axios from "axios";
 
+const url = "http://localhost:4008/users";
 
 async function test_deleteUser(e) {
 //async function handleSubmit(e) {
@@ -19,7 +21,7 @@ async function test_deleteUser(e) {
 
 
 
-function SettingsComp() {
+function SettingsComp({displayname}) {
     let [formEntries, setFormEntries] = useState({
         username: "",
         email: "",
@@ -28,37 +30,38 @@ function SettingsComp() {
     function updateFormData(e) {
         setFormEntries({...formEntries, [e.target.name] : e.target.value});
     }
-    
-    
     //console.log(`${formEntries.username} -- ${formEntries.email} -- ${formEntries.password}`);
     
-
-    async function handleSubmit(e, type) {
+    
+    async function handleSubmit(e, type) { //PATCH request
         e.preventDefault();
-        console.log(e);
-        console.log(type);
-    }
 
-
-    async function patchInfo(e) {
-        e.preventDefault();
         try {
-            const serverURLArg = `${serverURL}users`
+            let updateObject = null;
+            switch (type) {
+                case "username":
+                    updateObject = { $set: {username: formEntries.username}};
+                    break;
+                case "email":
+                    updateObject = { $set: {email: formEntries.email}};
+                    break;
+                case "password":
+                    updateObject = { $set: {password: formEntries.password}};
+                    break; 
+                default:
+                    throw Error("Unknown submit reference");
+            }
 
-            //TODO: Tie variable declaration to switch statement
-            const updateObject = { 
-                $set: { 
-                    password: "realPassword"
-                } 
-            }; 
-
+            const formData = {
+                username: displayname
+            }
             let res = await axios.patch(
-                serverURLArg, 
-                {data: {formData, updateObject:updateObject}}
+                url, 
+                {data: {formData, "updateObject":updateObject}}
             );
             console.log(res); 
-
-        } catch (err) {/*  */
+            
+        } catch (err) {
             console.error(err);
         }
     }
@@ -72,14 +75,15 @@ function SettingsComp() {
                         type="text" 
                         name="username"
                         onChange={updateFormData}
-                        value={formEntries.username}/>
+                        value={formEntries.username}
+                        />
                 </label>
-                <input type="submit" value="Update" />
+                <input name="username" type="submit" value="Update" />
             </form>
         </div>
 
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={e => handleSubmit(e, "email")}>
                 <label>
                     Change email: 
                     <input 
@@ -88,12 +92,12 @@ function SettingsComp() {
                         onChange={updateFormData}
                         value={formEntries.email}/>
                 </label>
-                <input type="submit" value="Update" />
+                <input name="email" type="submit" value="Update" />
             </form>
         </div>
 
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={e => handleSubmit(e, "password")}>
                 <label>
                     Change password: 
                     <input 
@@ -102,20 +106,19 @@ function SettingsComp() {
                         onChange={updateFormData}
                         value={formEntries.password}/>
                 </label>
-                <input type="submit" value="Update" />
+                <input name="password" type="submit" value="Update" />
             </form>
         </div>
     </>);
 }
 
-
 export default function UserProfile() {
     let [showBooks, setShowBooks] = useState(false);
-    const params = useParams().id;
+    const displayname = useParams().id;
     //console.log("parms: ", params);
 
     return (<>
-        <h1>{params}</h1>
+        <h1>{displayname}</h1>
 
         <div>
             <button onClick={() => setShowBooks(true)}>Books</button>
@@ -127,7 +130,7 @@ export default function UserProfile() {
         {showBooks ?
             <></>
             :
-            <SettingsComp />
+            <SettingsComp displayname={displayname} />
         }
     </>);
 } 
