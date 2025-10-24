@@ -12,7 +12,7 @@ export default function MainPage() {
         </div>
         
         <h1>Welcome to Telemaco!</h1>
-        <br /> <br /> <br />
+        <br /><br />
         
         {/*
             "a good num­ber of students who did not speak French; but Joseph Jacotot knew no Flemish...
@@ -23,11 +23,16 @@ export default function MainPage() {
         */}
         <div id="teleDiv">
             <h2>What is Telemaco?</h2>
-            <p>It's a language learning website, based on the book 
-            "<a href="https://en.wikipedia.org/wiki/The_Ignorant_Schoolmaster">The Ignorant school master</a>",
-            were you read a book in spanish (language you want to learn), and when in need look at the book in english.</p>
+            <p>It's a language learning website, based on the book: 
+            "<a href="https://en.wikipedia.org/wiki/The_Ignorant_Schoolmaster">The Ignorant school master</a>"</p>
+            <p>Where you read a book in spanish (language you want to learn), and check the english version for meaning.</p>
         </div>
+        <br /><br />
         
+        <div>
+            <h2>Examples:</h2>
+            <hr className="solid" />
+        </div>
 
     </>)    
 }
