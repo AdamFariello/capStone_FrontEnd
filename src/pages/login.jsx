@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; 
+
+import UserProfile from "./userProfile";
 
 //const urlDomain = "http://localhost:4008/";
 const url = "http://localhost:4008/api/auth/";
@@ -10,15 +12,18 @@ export default function LoginPage() {
     function updateFormData(e) {
         setFormData({...formData, [e.target.name]:e.target.value});
     }
-    //console.log(formData);
 
+    const navigate = useNavigate();
+    
     async function handleSubmit (e) { 
         e.preventDefault();
         try {
             let res = await axios.post(url, formData);
             
-            //TODO: add redicret and cleanup function
-        } catch (e) {
+            navigate(`/user/${formData.username}`);
+            //navigate("/user");
+            //navigate("/user", {replace: true});
+        } catch (e) { 
             console.error(e.message);
         }
     }
@@ -53,7 +58,7 @@ export default function LoginPage() {
             </label>
             <br /> 
 
-            <input type="submit" value="Sign Up" />
+            <input type="submit" value="Login" />
         </form>
         <br /> 
      

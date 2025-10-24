@@ -1,3 +1,5 @@
+import { useParams } from "react-router-dom";
+
 
 async function test_deleteUser(e) {
 //async function handleSubmit(e) {
@@ -37,8 +39,11 @@ async function test_patchUser(e) {
     }
 }
 
-export default function UserProfile() {
-    
+export default function UserProfile(username) {
+    console.log("username: ", username);     
+
+    const params = useParams().id;
+    console.log("parms: ", params);
 
     return (<>
         <h1>test</h1>

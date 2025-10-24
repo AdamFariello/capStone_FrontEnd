@@ -1,19 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 
 //TODO: in the full project make sure to swap this out with the actual
 const serverURL = "http://localhost:4008/";
 //const serverURL = "http://127.0.0.1:4008";
 
-
-// TODO:
-// 1. Add an email checking pattern
-// 2. Make it so text boxes are aligned (will probably need CSS)
-// 3. Switch out the anchor tag at the bottom of the page with <Link> 
-//    (after react-router-dom is setup of course)
-// 4. Add a visual of where you don't give proper info, like duplicate usernames
 
 export default function SignupPage() {
     // Stealing from teacher's code instead since it's clearner and better to update
@@ -25,8 +17,9 @@ export default function SignupPage() {
     function updateFormData(e) {
         setFormData({...formData, [e.target.name]:e.target.value});
     }
-
     const [confirmPassword, setConfirmPassword] = useState("");
+
+    const navigate = useNavigate(); 
 
 
     //async function test_postUser(e) {
@@ -48,9 +41,9 @@ export default function SignupPage() {
             
             const serverURLArg = `${serverURL}users`;
             await axios.post(serverURLArg, formData);
-            console.log(res);
+            //console.log(res);
 
-            //nav("userDash") //TODO: create a page highlighting this
+            navigate(`/user/${formData.username}`);
         } catch (e) {
             console.error(e);
         }

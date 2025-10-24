@@ -13,7 +13,9 @@ function App() {
       <Route path="/" element={<h1>test</h1>} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/user" element={<UserProfile />} />
+ 
+      {/*<Route path="/user" element={<UserProfile />} /> */}
+      <Route path="/user/:id" element={<UserProfile />} />
     </Routes>
   </>)
 }
